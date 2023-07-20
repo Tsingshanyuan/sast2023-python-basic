@@ -1,5 +1,6 @@
 import argparse
 import json
+import random
 
 def parser_data():
     """
@@ -82,9 +83,25 @@ if __name__ == "__main__":
     articles = data["articles"]
     
     # Debug信息
-    print(data)
+    #print(data)
 
     # TODO: 根据参数或随机从 articles 中选择一篇文章
+    if (args.article is None):
+        article = random.choice(articles)
+        # Debug信息
+        print(article["title"])
+    else:
+        article_exist = False   # 文章是否存在
+        for article_ in articles:
+            if (article_["title"] == args.article):
+                article = article_
+                article_exist = True
+                break
+        if (not article_exist): # 文章不存在
+            print("EROOR: 文章不存在！")
+            exit(0)
+        # Debug信息
+        print(article["title"])
     # TODO: 给出合适的输出，提示用户输入
     # TODO: 获取用户输入并进行替换
     # TODO: 给出结果
