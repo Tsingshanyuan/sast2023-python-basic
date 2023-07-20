@@ -81,13 +81,20 @@ if __name__ == "__main__":
     args = parser_data()
     data = read_articles(args.file)
     articles = data["articles"]
-    
-    # Debug信息
-    #print(data)
 
     # TODO: 根据参数或随机从 articles 中选择一篇文章
     if (args.article is None):
-        article = random.choice(articles)
+        # 打印所有文章的编号和标题
+        for i in range(len(articles)):
+            print(f"{i + 1}. {articles[i]['title']}")
+        article_num = input("您未指定文章，您可以输入编号从以上文章中选一篇，如果不输入则将为您随机选一篇：")
+        if (article_num != ""):
+            if (not article_num.isdigit() or int(article_num) > len(articles) or int(article_num) < 1):
+                print("ERROR: 输入的文章编号不合法！")
+                exit(0)
+            article = articles[int(article_num) - 1]
+        else:
+            article = random.choice(articles)
         # Debug信息
         print(article["title"])
     else:
