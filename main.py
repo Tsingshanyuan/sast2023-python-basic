@@ -19,7 +19,7 @@ def parser_data():
     )
 
     parser.add_argument("-f", "--file", help="题库文件", required=True)
-    # DONE: 添加更多参数
+    # TODO: 添加更多参数
     parser.add_argument("-a", "--article", help="指定的文章名，可选参数，为空表示不指定文章", required=False)
     
     args = parser.parse_args()
@@ -56,25 +56,27 @@ def get_inputs(hints):
     for hint in hints:
         print(f"请输入{hint}：")
         # TODO: 读取一个用户输入并且存储到 keys 当中
+        keys.append(input())
 
     return keys
 
 
-# def replace(article, keys):
-#     """
-#     替换文章内容
+def replace(article, keys):
+    """
+    替换文章内容
 
-#     :param article: 文章内容
-#     :param keys: 用户输入的单词
+    :param article: 文章内容
+    :param keys: 用户输入的单词
 
-#     :return: 替换后的文章内容
+    :return: 替换后的文章内容
 
-#     """
-#     for i in range(len(keys)):
-#         # TODO: 将 article 中的 {{i}} 替换为 keys[i]
-#         # hint: 你可以用 str.replace() 函数，也可以尝试学习 re 库，用正则表达式替换
+    """
+    for i in range(len(keys)):
+        # TODO: 将 article 中的 {{i}} 替换为 keys[i]
+        # hint: 你可以用 str.replace() 函数，也可以尝试学习 re 库，用正则表达式替换
+        article = str.replace(article, "{{" + str(i+1) + "}}", keys[i])
 
-#     return article
+    return article
 
 
 if __name__ == "__main__":
@@ -95,8 +97,6 @@ if __name__ == "__main__":
             article = articles[int(article_num) - 1]
         else:
             article = random.choice(articles)
-        # Debug信息
-        print(article["title"])
     else:
         article_exist = False   # 文章是否存在
         for article_ in articles:
@@ -107,11 +107,17 @@ if __name__ == "__main__":
         if (not article_exist): # 文章不存在
             print("EROOR: 文章不存在！")
             exit(0)
-        # Debug信息
-        print(article["title"])
+            
     # TODO: 给出合适的输出，提示用户输入
+    # 选好了，开始做题
+    print(f"题目：{article['title']}")
+    print("-" * 20)
+    
     # TODO: 获取用户输入并进行替换
+    keys = get_inputs(article['hints'])
+    article['article'] = replace(article['article'], keys)
+    
     # TODO: 给出结果
-
-
+    print("-" * 20)
+    print(article['article'])
 
